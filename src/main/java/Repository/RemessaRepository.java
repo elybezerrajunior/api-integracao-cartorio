@@ -1,6 +1,7 @@
 package Repository;
 import java.util.List;
 
+import Model.Orgao;
 import Model.Remessa;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.RequestScoped;
@@ -20,10 +21,10 @@ public class RemessaRepository implements PanacheRepository<Remessa> {
         em.persist(remessa);
     }
 
-    public List<Remessa> findRemessa() {
-        String sql = "select r from Remessa r where r.ativo = true";
+    public List<Remessa> findRemessa(Orgao cartorio) {
+        String sql = "select r from Remessa r where r.ativo = true and r.cartorio = :cartorio";
 
-        Query query = em.createQuery(sql);
+        Query query = em.createQuery(sql).setParameter("cartorio", cartorio);
 
         return query.getResultList();
     }

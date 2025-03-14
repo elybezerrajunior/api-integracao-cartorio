@@ -12,4 +12,19 @@ public class OrgaoRepository implements PanacheRepository<Orgao> {
     @Inject
     EntityManager em;
 
+    public Orgao findOrgaoCns(String cns) {
+
+        String sql = "select o from Orgao o where o.ativo = true and o.codigoServentia like :cns";
+
+        var result = getEntityManager()
+        .createQuery(sql, Orgao.class)
+        .setParameter("cns", cns)
+        .getResultList();
+
+        if (!result.isEmpty()) {
+            return result.get(0);
+        }
+        return null;
+    }
+
 }
